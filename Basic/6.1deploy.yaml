@@ -1,0 +1,46 @@
+# 3 adet frontend ve 3 adette backend POD'u oluşturuyoruz.
+# kubectl apply -f 6.1deploy.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    team: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend # service objesi üzerinden tanınmayı sağlayacak
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ozgurozturknet/k8s:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    team: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend #Service objesi üzerinden tanınmasını sağlayacak
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: ozgurozturknet/k8s:backend
+        ports:
+        - containerPort: 5000

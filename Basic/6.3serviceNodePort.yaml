@@ -1,0 +1,19 @@
+# kubectl apply -f 6.3serviceNodePort.yaml
+# kubectl get services
+# minikube service --url frontend
+# kubectl delete service servicename
+# kubectl get endpoints => podların endpointi burada tutulur
+# kubectl get endpoints frontend=> podların endpointi burada tutulur
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

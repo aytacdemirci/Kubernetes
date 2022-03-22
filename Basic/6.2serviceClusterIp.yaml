@@ -1,0 +1,20 @@
+# ClusterIp ile oluşturmuş serviceye sadece Cluster içerisinden erişim sağlanır.
+# kubectl apply -f 6.2serviceClusterIp.yaml
+# kubectl get service
+# yukarıdaki sorgu sonucu gelen backend isimli nameye ait Cluster-Ip bilgisi ile 
+# sadece bu cluster içerisinden erişim sağlanır. Cluster içerisinden herhangi bir kaynak bu Ip nin portuna 
+# istek yollarsa bu istek bu servicenin app:backend labeliyle işaretlenmiş podları tarafından karşılanır
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend # Cluster içerisinden bu service ulaşacagımız isim
+spec:
+  type: ClusterIP
+  selector:
+    app: backend # Git ve bu app: backend etiketine sahip podları bul ve trafiği onlara yönlendir.
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000

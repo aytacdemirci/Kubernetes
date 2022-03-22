@@ -1,0 +1,31 @@
+# kubectl apply -f 5deployment.yaml => Deployment 1.replicaseti yarattı
+# image: httpd olan yeri image = nginx olarak güncelleiyoruz. Yeni bir replicaset yaratılacak.
+# kubectl apply -f 5deployment.yaml => Deploymenta güncelleme yapıldı. 2. replicaseti oluşturdu.
+# kubectl get replicaset => Toplamda 2 adet replicaset var. Eski ve Yeni
+# kubectl rollout history deployment myappfirtdeployment => Deployment objesi üzerinde yapılan değişiklikler
+# kubectl rollout undo deployment myappfirtdeployment --to-revision=1 => ilk deploymenta geri döndük
+# kubectl delete -f 5deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myappfirtdeployment
+spec:
+  replicas: 10 # Deployment objesinin oluşturduğu reğlicaset objesinin  kaç adet Pod oluşturmasını istiyorsak onu giriyoruz
+  selector:
+    matchLabels:
+      app: firstapplabel # Bu etiket ve 24 numaradaki etiket eşit olmalı.Deployment kendine ait  podları bunlarla bulacak
+  strategy:
+    type: RollingUpdate # 10 tane pod var 2 tane yeni oluştur 2 tane eski sil ....
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 12
+  template:
+    metadata:
+      labels:
+        app: firstapplabel
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+          - containerPort: 80

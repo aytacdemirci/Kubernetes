@@ -1,0 +1,14 @@
+#kubectl config --help => config altında bulunan kodları listeler. Örn:kubectl config current-context
+#kubectl config use-context minikube => Contexti minikube olarak değiştirir
+#kubectl apply -f pod1.yaml => pod1.yaml isminde olan dosyayı çalıştırır.
+#kubectl get pods => podları listeler.
+#kubectl get pods firstpod -o wide => plain text olarak detaylı bilgi verir
+#kubectl describe pods firstpod => firstpod isimli pod hakkında  detaylı bilgi verir
+#kubectl logs -f pods firstpod => firfpod isimli podun loglarına bakar.
+
+
+#kubectl get namespaces => tüm namespaceleri listeler.
+#kubectl create namespace rabbits => rabbits isminde namespace oluştur.
+#kubectl config set-context --current --namespace=rabbits => rabbits isimli namespace set edilir.
+#kubectl delete namespace rabbits =>rabbits isimli nama space silinir.
+

@@ -1,0 +1,34 @@
+# En altta volumes altında cache-vol isminde  içi boş bir volume oluşturuluyor.
+# Daha sonra 20.satırda volumeMount ile container bu pathe mount ediliyor.
+# Artık bu pod ayakta kaldığı sürece container içindeki bilgiler buraya kaydedilecek.
+# Podu ister biz kapatalım ister kubernetes kapatsın bu durumda bu volumede silinecek.
+# 2 adet powershell açılır ve bir tanesinde  kubectl get pods -w
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir
+spec:
+  containers:
+  - name: frontend
+    image: ozgurozturknet/k8s:blue
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /healthcheck
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    volumeMounts:
+    - name: cache-vol
+      mountPath: /cache
+  - name: sidecar
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 3600"]
+    volumeMounts:
+    - name: cache-vol
+      mountPath: /tmp/log
+  volumes:
+  - name: cache-vol
+    emptyDir: {}

@@ -1,0 +1,31 @@
+# kubectl apply -f 4deployment.yaml
+# kubectl get deployments
+# kubectl get pods
+# replicas sayısını 5 e çıkart
+# kubectl apply -f 4deployment.yaml
+# kubectl get pods
+# kubectl get replicasets => 1 adet replicaset var
+# image: httpd olarak değişiklik yap
+# kubectl apply -f 4deployment.yaml
+# kubectl get replicasets => replica sayısı 2 oldu. Eski replicaset ve yeni replicaset.
+# kubectl rollout undo deployment myappfirtdeployment => bir önceki replicasete geri dönmek için
+# kubectl delete -f 4deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myappfirtdeployment
+spec:
+  replicas: 5 # Deployment objesinin kaç adet Pod oluşturmasını istiyorsak onu giriyoruz
+  selector:
+    matchLabels:
+      app: firstapplabel # Bu etiket ve 24 numaradaki etiket eşit olmalı. Deployment kendine ait podları bunlarla bulacak
+  template:
+    metadata:
+      labels:
+        app: firstapplabel
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+          - containerPort: 80

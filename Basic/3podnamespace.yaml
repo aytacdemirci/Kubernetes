@@ -1,0 +1,27 @@
+# Aksi belirtilmedikçe default namespace üzerinde işlem yapılır.
+# kubectl apply -f 3podnamespace.yaml 
+# kubectl get namespaces => tüm namespaceleri listeler.
+# kubectl get pods -A => Tüm napecelerdeki podsları listeler
+# kubectl get pods -n  development=> development isimli namespacede çalışan podları listeler
+# kubectl create namespace app1 => app1 isminde namespace oluştur.
+# kubectl delete 
+# kubectl config set-context --current --namespace=app1
+# kubectl config set-context --current --namespace=development
+# kubectl delete namespace development
+#  kubectl delete namespace app1
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: development
+  name: namespacepod
+spec:
+  containers:
+  - name: namespacecontainer
+    image: nginx:latest
+    ports:
+    - containerPort: 80
